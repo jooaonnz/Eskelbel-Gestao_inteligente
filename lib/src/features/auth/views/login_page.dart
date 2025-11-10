@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../inventory/views/inventory_page.dart';
 import '../../financial/views/financial_page.dart';
 import '../../driver/views/driver_page.dart';
+import '../../admin/views/admin_page.dart';
 import '../../../shared/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -64,6 +65,8 @@ class _LoginPageState extends State<LoginPage> {
       nextPage = FinancialPage(user: user);
     } else if (user['role'] == 'motorista') {
       nextPage = DriverPage(user: user);
+    } else if (user['role'] == 'admin') {
+      nextPage = AdminPage(user: user);
     } else {
       nextPage = HomePage(user: user);
     }
