@@ -1,0 +1,444 @@
+# 📐 ESTRUTURA COMPLETA DO PROJETO - ESKELBEL GESTÃO INTELIGENTE
+
+## 🏗️ Arquitetura Geral
+
+```
+lib/
+├── src/
+│   ├── core/                          # Camada de configurações globais
+│   │   ├── database/
+│   │   │   ├── database_config.dart
+│   │   │   └── local_database.dart
+│   │   ├── theme/
+│   │   │   └── app_theme.dart
+│   │   └── utils/
+│   │       ├── routes.dart
+│   │       ├── formatters.dart
+│   │       └── constants.dart
+│   │
+│   ├── features/                      # Módulos da aplicação (MVC)
+│   │   ├── auth/                      # Feature de Autenticação
+│   │   │   ├── models/
+│   │   │   │   └── user.dart
+│   │   │   ├── views/
+│   │   │   │   └── login_page.dart    # Tela de login
+│   │   │   └── controllers/
+│   │   │       └── auth_controller.dart
+│   │   │
+│   │   ├── dashboard/                 # Feature de Dashboard
+│   │   │   ├── models/
+│   │   │   │   └── dashboard_model.dart
+│   │   │   ├── views/
+│   │   │   │   └── dashboard_page.dart
+│   │   │   └── controllers/
+│   │   │       └── dashboard_controller.dart
+│   │   │
+│   │   ├── inventory/                 # Feature de Estoque
+│   │   │   ├── models/
+│   │   │   │   └── product.dart
+│   │   │   ├── views/
+│   │   │   │   └── inventory_page.dart
+│   │   │   └── controllers/
+│   │   │       └── inventory_controller.dart
+│   │   │
+│   │   ├── financial/                 # Feature de Financeiro
+│   │   │   ├── models/
+│   │   │   │   └── transaction.dart
+│   │   │   ├── views/
+│   │   │   │   └── financial_page.dart
+│   │   │   └── controllers/
+│   │   │       └── financial_controller.dart
+│   │   │
+│   │   ├── driver/                    # Feature de Motorista
+│   │   │   ├── models/
+│   │   │   │   └── delivery.dart
+│   │   │   ├── views/
+│   │   │   │   ├── driver_page.dart
+│   │   │   │   ├── driver_dashboard_view.dart
+│   │   │   │   └── driver_deliveries_view.dart
+│   │   │   └── controllers/
+│   │   │       └── driver_controller.dart
+│   │   │
+│   │   └── admin/                     # Feature de Administrador
+│   │       ├── models/
+│   │       │   └── report.dart        # ← VOCÊ ESTÁ AQUI
+│   │       ├── views/
+│   │       │   ├── admin_page.dart
+│   │       │   ├── admin_dashboard_view.dart
+│   │       │   ├── admin_inventory_view.dart
+│   │       │   ├── admin_financial_view.dart
+│   │       │   ├── admin_driver_view.dart
+│   │       │   └── admin_reports_view.dart
+│   │       └── controllers/
+│   │           └── admin_controller.dart
+│   │
+│   └── shared/                        # Componentes compartilhados
+│       ├── pages/
+│       │   └── home_page.dart
+│       └── widgets/
+│           └── user_menu.dart
+│
+└── main.dart                          # Ponto de entrada da aplicação
+```
+
+## 🔄 Fluxo de Navegação
+
+### 1️⃣ **Login (Ponto de Entrada)**
+```
+main.dart 
+  ↓
+LoginPage (lib/src/features/auth/views/login_page.dart)
+  ├─ Campo Email
+  ├─ Campo Senha
+  ├─ Seletor de Perfil (Combobox)
+  ├─ Botão "Entrar"
+  └─ Botões de Acesso Rápido (Admin, Estoquista, Motorista, Financeiro)
+```
+
+**Função: `_navigateBasedOnRole(String role)`**
+- ✅ Valida o papel do usuário
+- ✅ Navega para a página correta
+- ✅ Remove todas as rotas anteriores (Navigator.of(context).pushAndRemoveUntil)
+
+### 2️⃣ **Roteamento por Papel**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    APÓS LOGIN                            │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  "admin"       →  AdminPage (5 abas)                    │
+│  ├─ Dashboard  (Dashboard compartilhado)                │
+│  ├─ Estoque    (InventoryPage)                          │
+│  ├─ Financeiro (FinancialPage)                          │
+│  ├─ Entregas   (DriverPage - sem navegação)             │
+│  └─ Relatórios (AdminReportsView - EXCLUSIVO)           │
+│                                                          │
+│  "estoquista"  →  InventoryPage (Gestão de Estoque)     │
+│                                                          │
+│  "motorista"   →  DriverPage (2 abas)                   │
+│  ├─ Início      (DriverDashboardView)                   │
+│  └─ Entregas    (DriverDeliveriesView)                  │
+│                                                          │
+│  "financeiro"  →  FinancialPage (Transações)            │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+## 📱 Páginas e Widgets
+
+### **1. LoginPage** 
+- **Arquivo**: `lib/src/features/auth/views/login_page.dart`
+- **Tipo**: StatefulWidget
+- **Funcionalidade**:
+  - Captura email, senha e seleciona papel
+  - 4 botões de acesso rápido (demo)
+  - Navega baseado no papel selecionado
+  - Não exibe UserMenu
+
+---
+
+### **2. DashboardPage**
+- **Arquivo**: `lib/src/features/dashboard/views/dashboard_page.dart`
+- **Tipo**: StatelessWidget
+- **Funcionalidade**:
+  - Exibe KPIs: Faturamento Hoje, Este Mês, Entregas, Lucro
+  - Mostra alertas (produtos vencendo, estoque mínimo, inadimplentes)
+  - Lista atividades recentes
+  - Acessível por: Admin, Motorista, Financeiro
+  - **Possui UserMenu** ✅
+
+---
+
+### **3. InventoryPage**
+- **Arquivo**: `lib/src/features/inventory/views/inventory_page.dart`
+- **Tipo**: StatefulWidget
+- **Funcionalidade**:
+  - 3 abas: Todos, Baixo Estoque, Produtos Vencendo
+  - Busca por nome/código
+  - Filtro por categoria
+  - Dialog para adicionar produtos
+  - Ajusta estoque (entrada/saída)
+  - Deleta produtos
+- **Acessível por**: Estoquista, Admin
+- **Possui UserMenu** ✅
+
+**Modelo Associado**: `Product`
+```dart
+class Product {
+  final String id;
+  final String nome;
+  final String codigo;
+  final String categoria;
+  final int estoque;
+  final int estoqueMinimo;
+  final double preco;
+  final String? validade;
+  final String fornecedor;
+}
+```
+
+---
+
+### **4. FinancialPage**
+- **Arquivo**: `lib/src/features/financial/views/financial_page.dart`
+- **Tipo**: StatefulWidget
+- **Funcionalidade**:
+  - 3 abas: Todas, A Receber, A Pagar
+  - Cards de resumo (Total Receber, Total Pagar, Saldo)
+  - Dialog para adicionar transações
+  - Marca transações como pagas
+  - Filtra por tipo
+- **Acessível por**: Financeiro, Admin
+- **Possui UserMenu** ✅
+
+**Modelo Associado**: `Transaction`
+```dart
+class Transaction {
+  final String id;
+  final TransactionType tipo;      // receber / pagar
+  final String descricao;
+  final String? cliente;
+  final double valor;
+  final String vencimento;
+  final TransactionStatus status;  // pendente / pago / atrasado
+  final String categoria;
+}
+```
+
+---
+
+### **5. DriverPage**
+- **Arquivo**: `lib/src/features/driver/views/driver_page.dart`
+- **Tipo**: StatefulWidget
+- **Funcionalidade**:
+  - 2 abas: Início (Dashboard), Entregas
+  - IndexedStack para alternar views
+  - Usa DriverDashboardView e DriverDeliveriesView
+- **Acessível por**: Motorista, Admin
+- **Possui UserMenu** ✅
+
+#### **5.1 DriverDashboardView**
+- **Arquivo**: `lib/src/features/driver/views/driver_dashboard_view.dart`
+- **Funcionalidade**:
+  - KPIs: Entregas Hoje, Concluídas, Em Rota, Faturamento
+  - Atividades recentes
+  - Apenas leitura (view)
+
+#### **5.2 DriverDeliveriesView**
+- **Arquivo**: `lib/src/features/driver/views/driver_deliveries_view.dart`
+- **Funcionalidade**:
+  - Lista de entregas com 5 filtros
+  - Cards com detalhes: número, cliente, endereço, horário, valor
+  - Modal bottom sheet para atualizar status
+  - Stateful (gerencia estado dos filtros)
+
+**Modelo Associado**: `Delivery`
+```dart
+class Delivery {
+  final String id;
+  final String numero;
+  final String cliente;
+  final String endereco;
+  final String cidade;
+  final double valor;
+  final String dataPrevista;
+  final DeliveryStatus status; // pendente / emrota / concluida / atrasada
+  final String? observacoes;
+  final String contato;
+}
+```
+
+---
+
+### **6. AdminPage**
+- **Arquivo**: `lib/src/features/admin/views/admin_page.dart`
+- **Tipo**: StatefulWidget
+- **Funcionalidade**:
+  - 5 abas com ícones
+  - IndexedStack para navegação
+  - Integra: Dashboard, Inventory, Financial, Driver, Reports
+- **Acessível por**: Admin APENAS
+- **Possui UserMenu** ✅
+
+#### **6.1 AdminReportsView** ⭐
+- **Arquivo**: `lib/src/features/admin/views/admin_reports_view.dart`
+- **Funcionalidade**:
+  - **EXCLUSIVA DO ADMIN**
+  - Seletor de período (Semana, Mês, Trimestre, Ano)
+  - Botões de export (PDF, Excel)
+  - 4 KPI Cards coloridos
+  - 3 Gráficos:
+    - 📊 Faturamento Diário (BarChart)
+    - 📈 Vendas por Categoria (PieChart)
+    - 📉 Histórico de Entregas (LineChart)
+  - 4 Botões de relatórios rápidos
+
+**Modelo Associado**: `Report`
+```dart
+class Report {
+  final String id;
+  final String title;
+  final String description;
+  final String icon;
+  final ReportType type;
+}
+
+enum ReportType { completo, estoque, entregas, financeiro }
+```
+
+---
+
+### **7. UserMenu** (Widget Compartilhado)
+- **Arquivo**: `lib/src/shared/widgets/user_menu.dart`
+- **Tipo**: StatelessWidget
+- **Funcionalidade**:
+  - Avatar com iniciais do usuário
+  - Dropdown com:
+    - Nome do usuário
+    - Papel/Role
+    - Opção "Sair" (logout)
+  - Diálogo de confirmação
+  - Navega para LoginPage removendo todas as rotas
+- **Usado em**: Dashboard, Inventory, Financial, Driver, Admin
+
+---
+
+### **8. HomePage** (Intermediária)
+- **Arquivo**: `lib/src/shared/pages/home_page.dart`
+- **Tipo**: StatelessWidget
+- **Funcionalidade**:
+  - Apenas redireciona para DashboardPage
+  - Usada como ponte na navegação
+
+---
+
+## 🎨 Componentes Visuais
+
+### **Cards**
+- Exibem informações em blocos organizados
+- Cores diferenciadas por tipo (Green, Blue, Orange, Red, Purple)
+- Usadas em: Dashboard, Financial, Reports
+
+### **Abas (Tabs)**
+- **Inventory**: 3 abas (Todos, Baixo, Vencendo)
+- **Financial**: 3 abas (Todas, Receber, Pagar)
+- **Driver**: 2 abas (Início, Entregas)
+- **Admin**: 5 abas (Dashboard, Estoque, Financeiro, Entregas, Relatórios)
+
+### **Dialogs**
+- Adicionar Produto (Inventory)
+- Adicionar Transação (Financial)
+- Confirmar Logout (UserMenu)
+- Atualizar Status (Driver Deliveries - Bottom Sheet)
+
+### **Badges/Tags**
+- Status coloridos (Verde=Pago, Vermelho=Atrasado, Amarelo=Pendente)
+- Categorias de produtos
+- Tipos de transações
+
+---
+
+## 🔐 Controle de Acesso
+
+```
+┌──────────────────────────────────────────────────────┐
+│              MATRIZ DE ACESSOS                       │
+├────────────────┬──────┬───────────┬─────────┬────────┤
+│ Funcionalidade │Admin │ Estoquista│Motorista│ Finan. │
+├────────────────┼──────┼───────────┼─────────┼────────┤
+│ Dashboard      │  ✅  │     ❌    │   ✅    │   ✅   │
+│ Estoque        │  ✅  │     ✅    │   ❌    │   ❌   │
+│ Financeiro     │  ✅  │     ❌    │   ❌    │   ✅   │
+│ Entregas       │  ✅  │     ❌    │   ✅    │   ❌   │
+│ Relatórios     │  ✅  │     ❌    │   ❌    │   ❌   │
+└────────────────┴──────┴───────────┴─────────┴────────┘
+```
+
+---
+
+## 🎯 Fluxo Completo de Uso
+
+```
+1. INICIAR APP
+   ↓
+2. LoginPage carrega
+   ↓
+3. Usuário seleciona papel e clica "Entrar"
+   ↓
+4. _navigateBasedOnRole() é chamada
+   ↓
+5. Rota para página baseada no papel:
+   ├─ admin      → AdminPage (5 abas)
+   ├─ estoquista → InventoryPage
+   ├─ motorista  → DriverPage (2 abas)
+   └─ financeiro → FinancialPage
+   ↓
+6. Página abre com UserMenu no AppBar
+   ↓
+7. Usuário navega entre abas/seções
+   ↓
+8. Clica no avatar (UserMenu) → Seleciona "Sair"
+   ↓
+9. Diálogo de confirmação
+   ↓
+10. Volta para LoginPage (rotas limpas)
+```
+
+---
+
+## 📦 Dados Mock
+
+### **Dashboard**: 
+- 8 estatísticas mock
+
+### **Inventory**: 
+- 5 produtos mock
+
+### **Financial**: 
+- 6 transações mock
+
+### **Driver**: 
+- 5 entregas mock
+
+### **Reports**: 
+- Faturamento: 6 dias
+- Categorias: 4 categorias
+- Entregas: 6 meses
+
+---
+
+## ⚡ Funcionalidades Dinâmicas
+
+✅ Busca e filtro de produtos
+✅ Abas com contadores dinâmicos
+✅ Cálculos automáticos (saldo, totais, percentuais)
+✅ Status coloridos baseados em regras
+✅ Formatação de moeda (PT-BR)
+✅ Formatação de datas (DD/MM/YYYY)
+✅ Diálogos interativos
+✅ Seleção de período para relatórios
+
+---
+
+## 🔄 Estado (StatefulWidget vs StatelessWidget)
+
+| Página | Tipo | Razão |
+|--------|------|-------|
+| LoginPage | StatefulWidget | Captura dados do formulário |
+| DashboardPage | StatelessWidget | Apenas exibe dados |
+| InventoryPage | StatefulWidget | Gerencia produtos, busca, filtros |
+| FinancialPage | StatefulWidget | Gerencia transações, abas |
+| DriverPage | StatefulWidget | Gerencia abas |
+| AdminPage | StatefulWidget | Gerencia 5 abas |
+| UserMenu | StatelessWidget | Apenas UI |
+
+---
+
+## ✨ Resumo Final
+
+🏗️ **Arquitetura**: MVC com Features
+🔐 **Segurança**: Controle de acesso por papel
+🎨 **UI**: Material Design com cores diferenciadas
+📊 **Dados**: Mock data (pronto para integração com backend)
+🚀 **Escalabilidade**: Estrutura preparada para crescimento
