@@ -109,12 +109,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'DistribUI',
+                      'Eskelbel',
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 4),
                     const Text(
-                      'Sistema de Gestão para Distribuidoras',
+                      'Gestão Inteligente',
                       style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                     const SizedBox(height: 24),

@@ -12,6 +12,16 @@ class DriverDashboardView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Olá, ${user['name']}!', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+          SizedBox(
+           child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                        onPressed: () {},
+                        child: const Text('Entrar'),
+                      ),
+          ),
           const SizedBox(height: 4),
           const Text('Bem-vindo ao painel de motorista', style: TextStyle(color: Colors.grey)),
           const SizedBox(height: 20),
