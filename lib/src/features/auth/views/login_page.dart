@@ -169,35 +169,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    const Divider(),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Acesso rápido (Demo)',
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        OutlinedButton(
-                          onPressed: () => quickLogin('admin'),
-                          child: const Text('Admin', style: TextStyle(fontSize: 12)),
-                        ),
-                        OutlinedButton(
-                          onPressed: () => quickLogin('estoquista'),
-                          child: const Text('Estoquista', style: TextStyle(fontSize: 12)),
-                        ),
-                        OutlinedButton(
-                          onPressed: () => quickLogin('motorista'),
-                          child: const Text('Motorista', style: TextStyle(fontSize: 12)),
-                        ),
-                        OutlinedButton(
-                          onPressed: () => quickLogin('financeiro'),
-                          child: const Text('Financeiro', style: TextStyle(fontSize: 12)),
-                        ),
-                      ],
-                    ),
                   ],
                 ),
               ),
