@@ -5,7 +5,15 @@ import 'driver_deliveries_view.dart';
 
 class DriverPage extends StatefulWidget {
   final Map<String, dynamic> user;
-  const DriverPage({Key? key, required this.user}) : super(key: key);
+ final bool showAppBar;
+ final bool showNavigationBar;
+
+  const DriverPage({
+    Key? key,
+    required this.user,
+    this.showAppBar = true,
+    this.showNavigationBar = true,
+    }) : super(key: key);
 
   @override
   State<DriverPage> createState() => _DriverPageState();
@@ -17,13 +25,15 @@ class _DriverPageState extends State<DriverPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: widget.showAppBar
+      ? AppBar(
         title: const Text('Motorista'),
         backgroundColor: Colors.blue,
         actions: [
           UserMenu(user: widget.user),
         ],
-      ),
+      )
+      : null,
       body: IndexedStack(
         index: currentTabIndex,
         children: [
@@ -31,7 +41,8 @@ class _DriverPageState extends State<DriverPage> {
           DriverDeliveriesView(user: widget.user),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: widget.showNavigationBar
+      ? BottomNavigationBar(
         currentIndex: currentTabIndex,
         onTap: (index) => setState(() => currentTabIndex = index),
         items: const [
@@ -44,7 +55,8 @@ class _DriverPageState extends State<DriverPage> {
             label: 'Entregas',
           ),
         ],
-      ),
+      ) 
+      : null,
     );
   }
 }

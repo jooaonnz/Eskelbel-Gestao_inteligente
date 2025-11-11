@@ -4,8 +4,14 @@ import '../../../shared/widgets/user_menu.dart';
 
 class InventoryPage extends StatefulWidget {
   final Map<String, dynamic> user;
-  const InventoryPage({Key? key, required this.user}) : super(key: key);
+  final bool showAppBar;
 
+  const InventoryPage({
+    Key? key,
+    required this.user,
+    this.showAppBar = true,
+    }) : super(key: key);
+  
   @override
   State<InventoryPage> createState() => _InventoryPageState();
 }
@@ -130,13 +136,15 @@ class _InventoryPageState extends State<InventoryPage> {
     final expiringCount = expiringProducts.length;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: widget.showAppBar 
+      ? AppBar(
         title: const Text('Gestão de Estoque'),
         backgroundColor: Colors.blue,
         actions: [
           UserMenu(user: widget.user),
         ],
-      ),
+      ) 
+      : null,
       body: SingleChildScrollView(
         child: Column(
           children: [

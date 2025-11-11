@@ -4,7 +4,13 @@ import '../../../shared/widgets/user_menu.dart';
 
 class FinancialPage extends StatefulWidget {
   final Map<String, dynamic> user;
-  const FinancialPage({Key? key, required this.user}) : super(key: key);
+  final bool showAppBar;
+
+  const FinancialPage({
+    Key? key,
+    required this.user,
+    this.showAppBar = true,
+    }) : super(key: key);
 
   @override
   State<FinancialPage> createState() => _FinancialPageState();
@@ -126,13 +132,15 @@ class _FinancialPageState extends State<FinancialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: widget.showAppBar
+      ? AppBar(
         title: const Text('Gestão Financeira'),
         backgroundColor: Colors.blue,
         actions: [
           UserMenu(user: widget.user),
         ],
-      ),
+      )
+      : null,
       body: SingleChildScrollView(
         child: Column(
           children: [

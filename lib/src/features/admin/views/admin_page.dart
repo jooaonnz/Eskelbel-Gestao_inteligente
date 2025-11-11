@@ -15,7 +15,7 @@ class AdminPage extends StatefulWidget {
 }
 
 class _AdminPageState extends State<AdminPage> {
-  int currentTabIndex = 0;
+  int _selectedIndex = 0;
 
   final List<({String label, IconData icon})> tabs = [
     (label: 'Dashboard', icon: Icons.dashboard),
@@ -36,27 +36,45 @@ class _AdminPageState extends State<AdminPage> {
         ],
       ),
       body: IndexedStack(
-        index: currentTabIndex,
+        index: _selectedIndex,
         children: [
-          DashboardPage(user: widget.user),
-          InventoryPage(user: widget.user),
-          FinancialPage(user: widget.user),
-          DriverPage(user: widget.user),
+          DashboardPage(user: widget.user, showAppBar: false),
+          InventoryPage(user: widget.user, showAppBar: false),
+          FinancialPage(user: widget.user, showAppBar: false),
+          DriverPage(user: widget.user, showAppBar: false, showNavigationBar: false,),
           AdminReportsView(user: widget.user),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentTabIndex,
-        onTap: (index) => setState(() => currentTabIndex = index),
+        currentIndex: _selectedIndex,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
         type: BottomNavigationBarType.fixed,
-        items: tabs
-            .map(
-              (tab) => BottomNavigationBarItem(
-                icon: Icon(tab.icon),
-                label: tab.label,
-              ),
-            )
-            .toList(),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Início',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.inventory),
+            label: 'Estoque',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.attach_money),
+            label: 'Financeiro',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_shipping),
+            label: 'Entregas',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.assessment),
+            label: 'Relatórios',
+          ),
+        ],
       ),
     );
   }

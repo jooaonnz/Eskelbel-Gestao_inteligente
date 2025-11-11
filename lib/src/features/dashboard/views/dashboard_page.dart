@@ -3,7 +3,13 @@ import '../../../shared/widgets/user_menu.dart';
 
 class DashboardPage extends StatelessWidget {
   final Map<String, dynamic> user;
-  const DashboardPage({Key? key, required this.user}) : super(key: key);
+  final bool showAppBar;
+
+  const DashboardPage({
+    Key? key,
+    required this.user,
+    this.showAppBar= true,
+  }) : super(key:key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +38,15 @@ class DashboardPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
+      appBar : showAppBar 
+      ?  AppBar(
         title: const Text('Dashboard'),
         backgroundColor: Colors.blue,
         actions: [
           UserMenu(user: user),
         ],
-      ),
+      )
+      : null,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
