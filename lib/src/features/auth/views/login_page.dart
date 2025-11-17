@@ -23,17 +23,12 @@ class _LoginPageState extends State<LoginPage> {
     final name = role == 'admin'
         ? 'Administrador'
         : role == 'estoquista'
-            ? 'João Silva'
-            : role == 'motorista'
-                ? 'Carlos Santos'
-                : 'Maria Costa';
-    
-    final user = {
-      'id': '1',
-      'name': name,
-      'email': email,
-      'role': role,
-    };
+        ? 'João Silva'
+        : role == 'motorista'
+        ? 'Carlos Santos'
+        : 'Maria Costa';
+
+    final user = {'id': '1', 'name': name, 'email': email, 'role': role};
 
     _navigateBasedOnRole(user);
   }
@@ -45,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
       'motorista': 'Carlos Santos',
       'financeiro': 'Maria Costa',
     };
-    
+
     final user = {
       'id': '1',
       'name': roleNames[role],
@@ -58,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _navigateBasedOnRole(Map<String, dynamic> user) {
     Widget nextPage;
-    
+
     if (user['role'] == 'estoquista') {
       nextPage = InventoryPage(user: user);
     } else if (user['role'] == 'financeiro') {
@@ -71,9 +66,9 @@ class _LoginPageState extends State<LoginPage> {
       nextPage = HomePage(user: user);
     }
 
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => nextPage),
-    );
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (context) => nextPage));
   }
 
   @override
@@ -81,18 +76,16 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFE3F2FD), Color(0xFFBBDEFB)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 47, 109, 190),
         ),
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Card(
               elevation: 4,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(24),
                 child: Column(
@@ -105,12 +98,19 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.blue,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.local_shipping, color: Colors.white, size: 32),
+                      child: const Icon(
+                        Icons.local_shipping,
+                        color: Colors.white,
+                        size: 32,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     const Text(
                       'Eskelbel',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     const Text(
@@ -118,22 +118,45 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                     const SizedBox(height: 24),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'E-mail',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                     TextField(
                       controller: emailController,
                       decoration: const InputDecoration(
-                        labelText: 'E-mail',
                         prefixIcon: Icon(Icons.person),
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
                       ),
                       keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 16),
+
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Senha',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                     TextField(
                       controller: passwordController,
                       decoration: const InputDecoration(
-                        labelText: 'Senha',
                         prefixIcon: Icon(Icons.lock),
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
                       ),
                       obscureText: true,
                     ),
@@ -141,14 +164,27 @@ class _LoginPageState extends State<LoginPage> {
                     DropdownButtonFormField<String>(
                       value: selectedRole,
                       decoration: const InputDecoration(
-                        labelText: 'Perfil de Acesso',
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
                       ),
                       items: const [
-                        DropdownMenuItem(value: 'admin', child: Text('Administrador')),
-                        DropdownMenuItem(value: 'estoquista', child: Text('Estoquista')),
-                        DropdownMenuItem(value: 'motorista', child: Text('Motorista')),
-                        DropdownMenuItem(value: 'financeiro', child: Text('Financeiro')),
+                        DropdownMenuItem(
+                          value: 'admin',
+                          child: Text('Administrador'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'estoquista',
+                          child: Text('Estoquista'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'motorista',
+                          child: Text('Motorista'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'financeiro',
+                          child: Text('Financeiro'),
+                        ),
                       ],
                       onChanged: (value) {
                         setState(() {
@@ -162,7 +198,9 @@ class _LoginPageState extends State<LoginPage> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                         onPressed: handleSubmit,
                         child: const Text('Entrar'),
