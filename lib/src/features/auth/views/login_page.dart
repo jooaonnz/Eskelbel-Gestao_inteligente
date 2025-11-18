@@ -109,14 +109,14 @@ class _LoginPageState extends State<LoginPage> {
                     const Text(
                       'Eskelbel',
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: 26,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 4),
                     const Text(
                       'Gestão Inteligente',
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                     const SizedBox(height: 24),
                     const Align(
@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         'E-mail',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -132,10 +132,18 @@ class _LoginPageState extends State<LoginPage> {
                     TextField(
                       controller: emailController,
                       decoration: const InputDecoration(
+                        hintText: 'Digite seu e-mail',  
                         prefixIcon: Icon(Icons.person),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                         ),
+                      enabledBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.all(Radius.circular(8)),
+                         borderSide: BorderSide(color: Color.fromARGB(255, 12, 44, 34), width: 1.50),),
+                        focusedBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.all(Radius.circular(8)),
+                         borderSide: BorderSide(color: Color.fromARGB(255, 7, 175, 122), width: 2),
+                         )
                       ),
                       keyboardType: TextInputType.emailAddress,
                     ),
@@ -146,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Text(
                         'Senha',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -154,10 +162,15 @@ class _LoginPageState extends State<LoginPage> {
                     TextField(
                       controller: passwordController,
                       decoration: const InputDecoration(
+                        hintText: 'Digite sua senha',
                         prefixIcon: Icon(Icons.lock),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)), 
+                          borderSide: BorderSide(color: Color.fromARGB(255, 12, 44, 34), width: 1.50),
                         ),
+                      focusedBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.all(Radius.circular(8)),
+                         borderSide: BorderSide(color: Color.fromARGB(255, 7, 175, 122), width: 2),)
                       ),
                       obscureText: true,
                     ),
@@ -165,9 +178,15 @@ class _LoginPageState extends State<LoginPage> {
                     DropdownButtonFormField<String>(
                       value: selectedRole,
                       decoration: const InputDecoration(
-                        border: OutlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: Color.fromARGB(255, 12, 44, 34), width: 1.50),
                         ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: Color.fromARGB(255, 7, 175, 122), width: 2),
+                        ),
+                        
                       ),
                       items: const [
                         DropdownMenuItem(
