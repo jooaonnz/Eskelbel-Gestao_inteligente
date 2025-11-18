@@ -76,12 +76,13 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 47, 109, 190),
+          color: Color.fromARGB(255, 94, 146, 75),
         ),
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Card(
+              color: Colors.white,
               elevation: 4,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
@@ -95,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: 64,
                       height: 64,
                       decoration: const BoxDecoration(
-                        color: Colors.blue,
+                        color: Color.fromARGB(255, 7, 175, 122),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -197,13 +198,13 @@ class _LoginPageState extends State<LoginPage> {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
+                          backgroundColor: Color.fromARGB(255, 7, 175, 122),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
                         onPressed: handleSubmit,
-                        child: const Text('Entrar'),
+                        child: const Text('Entrar', style: TextStyle( color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),),
                       ),
                     ),
                     const SizedBox(height: 24),
