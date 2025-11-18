@@ -12,6 +12,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
+
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -132,7 +133,8 @@ class _LoginPageState extends State<LoginPage> {
                     TextField(
                       controller: emailController,
                       decoration: const InputDecoration(
-                        hintText: 'Digite seu e-mail',  
+                        hintText: 'Digite seu e-mail', 
+                        hintStyle: TextStyle(color: Color.fromARGB(255, 135, 139, 138)), 
                         prefixIcon: Icon(Icons.person),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -163,6 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: passwordController,
                       decoration: const InputDecoration(
                         hintText: 'Digite sua senha',
+                        hintStyle: TextStyle(color: Color.fromARGB(255, 135, 139, 138)),
                         prefixIcon: Icon(Icons.lock),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)), 
@@ -191,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                       items: const [
                         DropdownMenuItem(
                           value: 'admin',
-                          child: Text('Administrador'),
+                          child: Text('Administrador',),
                         ),
                         DropdownMenuItem(
                           value: 'estoquista',
