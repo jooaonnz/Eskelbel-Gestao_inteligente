@@ -29,8 +29,8 @@ class _AdminPageState extends State<AdminPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Administrador'),
-        backgroundColor: Colors.blue,
+        title: const Text('Area do adminstrador'),
+        backgroundColor: Color.fromARGB(255, 94, 146, 75),
         actions: [
           UserMenu(user: widget.user),
         ],

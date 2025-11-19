@@ -22,14 +22,7 @@ class _LoginPageState extends State<LoginPage> {
     final password = passwordController.text;
 
   final user = {'email': email, 'password': password};
-
-      if (email.isNotEmpty) {
-        print('Validado');
-        _navigateBasedOnRole(user);
-        return;
-      }else{
-        isValid();
-      }
+  _navigateBasedOnRole(user);
   }
 
   void isValid() {
@@ -45,17 +38,17 @@ class _LoginPageState extends State<LoginPage> {
   void _navigateBasedOnRole(Map<String, dynamic> user) {
     Widget nextPage;
 
-    if (user['role'] == 'estoque@gmail.com') {
+    if (user['email'] == 'estoque@gmail.com') {
       nextPage = InventoryPage(user: user);
-    } else if (user['role'] == 'financeiro@gmail.com') {
+    } else if (user['email'] == 'financeiro@gmail.com') {
       nextPage = FinancialPage(user: user);
-    } else if (user['role'] == 'motorista@gmail.com') {
+    } else if (user['email'] == 'motorista@gmail.com') {
       nextPage = DriverPage(user: user);
-    } else if (user['role'] == 'adm@gmail.com') {
+    } else if (user['email'] == 'adm@gmail.com') {
       nextPage = AdminPage(user: user);
     } else {
       print('Caiu nulo');
-      nextPage = LoginPage();
+      nextPage = LoginPage();//remover depois
     }
 
     Navigator.of(
