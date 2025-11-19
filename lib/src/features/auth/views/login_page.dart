@@ -16,55 +16,46 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  String selectedRole = 'admin';
 
   void handleSubmit() {
     final email = emailController.text;
-    final role = selectedRole;
-    final name = role == 'admin'
-        ? 'Administrador'
-        : role == 'estoquista'
-        ? 'João Silva'
-        : role == 'motorista'
-        ? 'Carlos Santos'
-        : 'Maria Costa';
+    final password = passwordController.text;
 
-    final user = {'id': '1', 'name': name, 'email': email, 'role': role};
+  final user = {'email': email, 'password': password};
 
-    _navigateBasedOnRole(user);
+      if (email.isNotEmpty) {
+        print('Validado');
+        _navigateBasedOnRole(user);
+        return;
+      }else{
+        isValid();
+      }
   }
 
-  void quickLogin(String role) {
-    final roleNames = {
-      'admin': 'Administrador',
-      'estoquista': 'João Silva',
-      'motorista': 'Carlos Santos',
-      'financeiro': 'Maria Costa',
-    };
+  void isValid() {
 
-    final user = {
-      'id': '1',
-      'name': roleNames[role],
-      'email': '$role@distribui.com',
-      'role': role,
-    };
-
-    _navigateBasedOnRole(user);
+       const Align(
+          alignment: Alignment.centerLeft,
+          child:const Text('informe seu e-mail', style: TextStyle(color: Color.fromARGB(255, 185, 1, 1), fontWeight: FontWeight.bold),
+          ),
+        );
+  
   }
 
   void _navigateBasedOnRole(Map<String, dynamic> user) {
     Widget nextPage;
 
-    if (user['role'] == 'estoquista') {
+    if (user['role'] == 'estoque@gmail.com') {
       nextPage = InventoryPage(user: user);
-    } else if (user['role'] == 'financeiro') {
+    } else if (user['role'] == 'financeiro@gmail.com') {
       nextPage = FinancialPage(user: user);
-    } else if (user['role'] == 'motorista') {
+    } else if (user['role'] == 'motorista@gmail.com') {
       nextPage = DriverPage(user: user);
-    } else if (user['role'] == 'admin') {
+    } else if (user['role'] == 'adm@gmail.com') {
       nextPage = AdminPage(user: user);
     } else {
-      nextPage = HomePage(user: user);
+      print('Caiu nulo');
+      nextPage = LoginPage();
     }
 
     Navigator.of(
@@ -148,7 +139,15 @@ class _LoginPageState extends State<LoginPage> {
                          )
                       ),
                       keyboardType: TextInputType.emailAddress,
+
                     ),
+                    if(emailController.text.isEmpty)
+                       const Align(
+                          alignment: Alignment.centerLeft,
+                          child:const Text('informe seu e-mail', style: TextStyle(color: Color.fromARGB(255, 185, 1, 1), fontWeight: FontWeight.bold),
+                        ),
+                       ),
+
                     const SizedBox(height: 16),
 
                     const Align(
@@ -177,44 +176,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       obscureText: true,
                     ),
-                    const SizedBox(height: 16),
-                    DropdownButtonFormField<String>(
-                      value: selectedRole,
-                      decoration: const InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: Color.fromARGB(255, 12, 44, 34), width: 1.50),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          borderSide: BorderSide(color: Color.fromARGB(255, 7, 175, 122), width: 2),
-                        ),
-                        
-                      ),
-                      items: const [
-                        DropdownMenuItem(
-                          value: 'admin',
-                          child: Text('Administrador',),
-                        ),
-                        DropdownMenuItem(
-                          value: 'estoquista',
-                          child: Text('Estoquista'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'motorista',
-                          child: Text('Motorista'),
-                        ),
-                        DropdownMenuItem(
-                          value: 'financeiro',
-                          child: Text('Financeiro'),
-                        ),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          selectedRole = value ?? 'admin';
-                        });
-                      },
-                    ),
+                    const Text('informe sua senha'),
+
                     const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
