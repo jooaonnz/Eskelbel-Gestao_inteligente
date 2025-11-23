@@ -1,22 +1,32 @@
 class User {
-  final int id;
+  final int? id;
   final String name;
   final String email;
+  final String password;
   final String role;
 
   User({
-    required this.id,
+    this.id,
     required this.name,
     required this.email,
-    required this.role,
+    required this.password,
+    this.role = 'user',
   });
 
-  factory User.fromMySQL(Map<String, dynamic> map) {
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'email': email,
+        'role': role,
+      };
+
+  factory User.fromRow(Map<String, dynamic> row) {
     return User(
-      id: map['id'],
-      name: map['name'],
-      email: map['email'],
-      role: map['role'],
+      id: row['id'],
+      name: row['name'],
+      email: row['email'],
+      password: row['password'],
+      role: row['role'],
     );
   }
 }

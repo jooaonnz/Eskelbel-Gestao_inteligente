@@ -4,9 +4,7 @@ import '../models/delivery.dart';
 class DeliveryService {
   static Future<List<Delivery>> getAll() async {
     final result = await DB.connection.query("SELECT * FROM deliveries ORDER BY id DESC");
-    return result
-        .map((row) => Delivery.fromRow(row.fields))
-        .toList();
+    return result.map((row) => Delivery.fromRow(row.fields)).toList();
   }
 
   static Future<int> create(Delivery d) async {
@@ -25,8 +23,17 @@ class DeliveryService {
       d.observacoes,
       d.contato
     ]);
-
     return result.insertId!;
   }
 
-  static Future<void> u
+  static Future<void> updateStatus(int id, String status) async {
+    await DB.connection.query(
+      "UPDATE deliveries SET status = ? WHERE id = ?",
+      [status, id],
+    );
+  }
+
+  static Future<void> delete(int id) async {
+    await DB.connection.query("DELETE FROM deliveries WHERE id = ?", [id]);
+  }
+}

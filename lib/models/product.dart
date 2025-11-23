@@ -1,5 +1,5 @@
 class Product {
-  final int id;
+  final int? id;
   final String nome;
   final String codigo;
   final String categoria;
@@ -10,7 +10,7 @@ class Product {
   final String fornecedor;
 
   Product({
-    required this.id,
+    this.id,
     required this.nome,
     required this.codigo,
     required this.categoria,
@@ -21,7 +21,19 @@ class Product {
     required this.fornecedor,
   });
 
-  factory Product.fromMySQL(Map<String, dynamic> row) {
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'nome': nome,
+        'codigo': codigo,
+        'categoria': categoria,
+        'estoque': estoque,
+        'estoque_minimo': estoqueMinimo,
+        'preco': preco,
+        'validade': validade,
+        'fornecedor': fornecedor,
+      };
+
+  factory Product.fromRow(Map<String, dynamic> row) {
     return Product(
       id: row['id'],
       nome: row['nome'],
@@ -33,19 +45,5 @@ class Product {
       validade: row['validade']?.toString(),
       fornecedor: row['fornecedor'],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'nome': nome,
-      'codigo': codigo,
-      'categoria': categoria,
-      'estoque': estoque,
-      'estoqueMinimo': estoqueMinimo,
-      'preco': preco,
-      'validade': validade,
-      'fornecedor': fornecedor,
-    };
   }
 }

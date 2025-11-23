@@ -36,15 +36,15 @@ class Delivery {
         'contato': contato,
       };
 
-  factory Delivery.fromRow(Map row) {
+  factory Delivery.fromRow(Map<String, dynamic> row) {
     return Delivery(
       id: row['id'],
       numero: row['numero'],
       cliente: row['cliente'],
       endereco: row['endereco'],
       cidade: row['cidade'],
-      valor: row['valor'],
-      dataPrevista: row['data_prevista'],
+      valor: double.parse(row['valor'].toString()),
+      dataPrevista: DateTime.parse(row['data_prevista'].toString()),
       status: row['status'],
       observacoes: row['observacoes'],
       contato: row['contato'],
